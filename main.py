@@ -20,7 +20,7 @@ def create_headless_driver():
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--window-size=1920x1080")
-    driver = webdriver.Chrome(options=chrome_options, executable_path="/usr/local/bin/chromedriver")
+    driver = webdriver.Chrome(options=chrome_options, executable_path="/usr/local/bin/chromedriver-linux64")
     return driver
 
 def login_to_facebook(email, password, param):
