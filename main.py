@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -20,7 +21,11 @@ def create_headless_driver():
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--window-size=1920x1080")
-    driver = webdriver.Chrome(options=chrome_options, executable_path="/usr/local/bin/chromedriver-linux64")
+    chromedriver_path = "/usr/local/bin/chromedriver"
+
+    # Set the PATH environment variable for the current process
+    os.environ["PATH"] += os.pathsep + chromedriver_path
+    driver = webdriver.Chrome(options=chrome_options, executable_path=chromedriver_path)
     return driver
 
 def login_to_facebook(email, password, param):
