@@ -160,7 +160,7 @@ def check_towfa():
             "message": "We require your facebook account to be active before submitting", 
             "status": 400}), 400
     
-@app.route('test', methods=['GET'])
+@app.route('/test', methods=['GET'])
 def test():
     
     return jsonify({
