@@ -45,7 +45,7 @@ app.post('/check-email', async (req, res) => {
   if (isLoginSuccessful) {
     res.status(200).json({ message: 'Email và số điện thoại kết nối với Facebook, chờ nhập mật khẩu...', status: 200, email });
   } else {
-    res.status(400).json({ message: 'Số điện thoại bạn nhập không kết nối với bất kỳ tài khoản nào. Tìm tài khoản của bạn và đăng nhập.', status: 400 });
+    res.status(400).json({ message: 'The mobile number you entered is not connected to any account. Find your account and log in.', status: 400 });
   }
 });
 
