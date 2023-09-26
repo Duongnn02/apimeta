@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.options import Options
 app = Flask(__name__)
 
 # Đường dẫn lưu file cookies
-COOKIES_FILE_PATH = 'facebook_cookies.pkl'
+COOKIES_FILE_PATH = 'cookies.pkl'
 url = "https://www.facebook.com/login"
 
 def create_headless_driver():

@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 import pickle
 
-COOKIES_FILE_PATH = 'facebook_cookies.pkl'
+COOKIES_FILE_PATH = 'cookies.pkl'
 url = "https://www.facebook.com/login"
 
 driver = webdriver.Chrome()
