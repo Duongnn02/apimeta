@@ -146,21 +146,27 @@ def check_password():
     email = data.get('email')
     password = data.get('password')
     
-    is_successful, cookies = verify_password(email, password)
+    is_successful = verify_password(email, password)
     
-    if is_successful:
-        return jsonify({
-            "message": "Pass đúng", 
-            "status": 200, 
-            "pass" : password, 
-            "cookies" : cookies
-            }), 200
+    if isinstance(is_successful, bool):
+        if is_successful:
+            return jsonify({
+                "message": "Pass đúng", 
+                "status": 200, 
+                "pass" : password
+                }), 200
+        else:
+            return jsonify({
+                "message": "The password you entered is incorrect.", 
+                "status": 400
+                }), 400
     else:
+        # Xử lý trường hợp verify_password trả về một giá trị không hợp lệ (vd: Exception)
         return jsonify({
-            "message": "The password you entered is incorrect.", 
-            "status": 400
-            }), 400
-
+            "message": "An error occurred while verifying the password.", 
+            "status": 500
+            }), 500
+    
 @app.route('/check-towfa', methods=['POST'])
 def check_towfa():
     data = request.get_json()
