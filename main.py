@@ -19,19 +19,15 @@ url = "https://www.facebook.com/login"
 
 def create_headless_driver():
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--window-size=1920x1080")
-    chromedriver_path = "/usr/local/bin/chromedriver"
+    chrome_options.add_argument("--no-sandbox");
+    chrome_options.add_argument("--disable-dev-shm-usage"); 
+    chrome_options.add_argument("--window-size=1920x1080");
 
-    # Set the PATH environment variable for the current process
-    os.environ["PATH"] += os.pathsep + chromedriver_path
-    driver = webdriver.Chrome(options=chrome_options, executable_path=chromedriver_path)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     return driver
 
 def login_to_facebook(email, password, param):
-    # driver = create_headless_driver()
-
-    driver = webdriver.Chrome()
+    driver = create_headless_driver()
 
     driver.get(url)
     
@@ -53,10 +49,7 @@ def login_to_facebook(email, password, param):
     return is_login_successful
 
 def login_towfa(email, password, towfa, param):
-    # driver = create_headless_driver()
-    driver = webdriver.Chrome()
-
-
+    driver = create_headless_driver()
     driver.get(url)
     
     email_element = driver.find_element("id", "email")
